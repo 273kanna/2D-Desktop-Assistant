@@ -1,21 +1,60 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      body {
-        margin: 0;
-        background: transparent;
-        overflow: hidden;
+<head>
+  <meta charset="UTF-8">
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0);
+      overflow: hidden;
+    }
+    #draggable {
+      -webkit-app-region: drag;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      pointer-events: auto;
+    }
+    img {
+      width: 200px;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+    #commandBox {
+      position: absolute;
+      bottom: 0px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      padding: 8px 12px;
+      font-size: 14px;
+      border: none;
+      border-radius: 12px;
+      outline: none;
+      background: rgba(255,255,255,0.9);
+      -webkit-app-region: no-drag;
+    }
+  </style>
+</head>
+<body>
+  <div id="draggable">
+    <img src="assets/avatar.png" alt="Assistant">
+  </div>
+  <input id="commandBox" type="text" placeholder="Type a command...">
+  <script>
+    const input = document.getElementById('commandBox');
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        const cmd = input.value.trim();
+        if (cmd) {
+          window.assistantAPI.send(cmd);
+          input.value = '';
+        }
       }
-      img {
-        width: 100%;
-        height: auto;
-        user-select: none;
-        -webkit-user-drag: none;
-      }
-    </style>
-  </head>
-  <body>
-    <img src="./assets/avatar.png" />
-  </body>
+    });
+  </script>
+</body>
 </html>
